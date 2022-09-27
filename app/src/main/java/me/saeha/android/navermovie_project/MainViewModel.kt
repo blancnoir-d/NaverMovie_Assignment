@@ -26,8 +26,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val liveFavoriteList: LiveData<List<MovieData>>
     get() = favoriteList
 
-    private val CLIENT_ID = ""
-    private val CLIENT_SECRET = ""
+    private val CLIENT_ID = "6GXwvLWETQz9pjFapwto"
+    private val CLIENT_SECRET = "YC92nIro4P"
 
     init{
         searchResult.value = newsItem
