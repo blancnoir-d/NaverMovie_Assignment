@@ -1,11 +1,11 @@
 package me.saeha.android.navermovie_project.model
 
 class MoviesData(
-    val lastBuildDate: String,
-    val total: String,
-    start: String,
-    display: String,
-    items: Array<Movie>
+    var lastBuildDate: String,
+    var total: String,
+    var start: String,
+    var display: String,
+    var items: Array<Movie>
 ) {
     data class Movie(
         val title: String,

@@ -11,6 +11,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 object RetrofitClient {
 
     private const val BASE_URL = "https://openapi.naver.com/v1/"
+
     private val gson: Gson = GsonBuilder()
         .setLenient()
         .create()
