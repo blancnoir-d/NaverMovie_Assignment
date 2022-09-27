@@ -7,8 +7,16 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import me.saeha.android.navermovie_project.databinding.ActivityMainBinding
+import me.saeha.android.navermovie_project.model.MovieData
+import me.saeha.android.navermovie_project.model.MoviesData
 import me.saeha.android.navermovie_project.network.RetrofitClient
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,13 +25,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
 
     var text = "TEST"
-    private val clientId = ""
-    private val clientPass = ""
+
+
+    //Rxjava
+    private var disposable: Disposable? = null
+
+    //검색 결과값 담는 List
+//    private var resultList: MutableList<MovieData> = ArrayList<MovieData>()
+
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         binding.activity = this
+        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         setView()
 
@@ -31,9 +47,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setView(){
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false) // 뒤로가기 버튼 활성화 (화살표)
-        supportActionBar?.setDisplayShowTitleEnabled(false) //액션바에 표시되는 제목의 표시유무를 설정합니다. false로 해야 custom한 툴바의 이름이 화면에 보이게 됩니다.
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.toolbar.title = "네이버 영화 검색"
+
+        mainViewModel.liveSearchResult.observe(this){
+            //TODO:it은 즐겨찾기 데이터가 처리된 데이터로 나와야
+            val adapter = SearchResultAdapter(this,it)
+            val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+            binding.rcyMainMovieList.adapter = adapter
+            binding.rcyMainMovieList.layoutManager = layoutManager
+
+        }
+
     }
 
     // 툴바 메뉴 버튼을 설정- menu에 있는 item을 연결하는 부분
@@ -49,23 +75,59 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_favorites -> {//즐겨찾기
-               val intent = Intent(this,FavoritesActivity::class.java)
-                startActivity(intent)
+                mainViewModel.getSearchData("1991")
+//               val intent = Intent(this,FavoritesActivity::class.java)
+//                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun searchMovie(searchText: String){
-        val call: Call<String> = RetrofitClient.service.requestMovie(clientId,clientPass,"movie.json",searchText)
-        call.enqueue(object: Callback<String>{
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                Log.i("Test",response.body().toString())
-            }
+//    private fun searchMovie(searchText: String){
+//        //
+//        val call: Call<MoviesData> = RetrofitClient.service.requestMovieJson(clientId,clientPass,"movie.json",searchText)
+//        call.enqueue(object: Callback<MoviesData>{
+//            override fun onResponse(call: Call<MoviesData>, response: Response<MoviesData>) {
+//                if(response.isSuccessful){ //response.code ==200
+//                    val data: MoviesData? = response.body()
+//                    if(data != null){
+//                        Log.d("영화 데이터", data.items.size.toString())
+//                    }
+//
+//                }else{
+//                    Log.e("Network",response.code().toString())
+//                }//response.code == 400
+//            }
+//
+//            override fun onFailure(call: Call<MoviesData>, t: Throwable) { //response.code == 500
+//
+//            }
+//        })
+//    }
+//
+//
+//    private fun searchMovieRxJava(searchText: String){
+//        //
+//        val disposable = RetrofitClient.service.requestMovieRxJava(clientId,clientPass,"movie.json",searchText)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe { movies ->
+//                movies.items.iterator().forEach {
+//                    val movieItem = MovieData(it.title, it.link, it.image, it.subtitle, it.pubDate, it.director,it.actor, it.userRating, )
+//                    resultList.add(movieItem)
+//
+//                    val adapter = SearchResultAdapter(this, resultList)
+//                }
+//
+//            }
+//
+//    }
+//
+//    override fun onDestroy() { //RxJava
+//        super.onDestroy()
+//        disposable?.let{ disposable!!.dispose() }
+//
+//    }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
 
-            }
-        })
-    }
 }
