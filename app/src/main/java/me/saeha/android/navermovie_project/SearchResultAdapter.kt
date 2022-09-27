@@ -6,12 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.view.ViewGroup
 import me.saeha.android.navermovie_project.databinding.ItemMovieBinding
-import me.saeha.android.navermovie_project.model.MovieData
 import me.saeha.android.navermovie_project.model.MoviesData
 
 class SearchResultAdapter(
     val context: Context,
-    private val searchResultList: List<MovieData>
+    private val templateKeywordData: List<MoviesData.Movie>
 ) :
     RecyclerView.Adapter<SearchResultAdapter.ItemViewHolder>() {
 
@@ -23,7 +22,7 @@ class SearchResultAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = searchResultList[position]
+        val item = templateKeywordData[position]
         holder.onBind(context, item)
 
         //아이템 클릭리스너
@@ -35,26 +34,14 @@ class SearchResultAdapter(
 
     }
 
-    override fun getItemCount(): Int = searchResultList.size
+    override fun getItemCount(): Int = templateKeywordData.size
 
     //아이템 뷰홀더
     class ItemViewHolder(binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val ivbFavorite = binding.ivbFavorite
-        private val tvTitle = binding.tvTitle
-        private val tvDirector = binding.tvDirector
-        private val tvActor = binding.tvActor
-        private val tvUserRating = binding.tvUserRating
 
-        fun onBind(context: Context, item: MovieData) {
+        fun onBind(context: Context, item: MoviesData.Movie) {
 
-            tvTitle.text = item.title
-            tvDirector.text = context.getString(R.string.director,item.director)
-            tvActor.text = context.getString(R.string.actor,item.actor)
-            tvUserRating.text = context.getString(R.string.user_rating,item.userRating)
 
-            ivbFavorite.setOnClickListener {
-
-            }
         }
     }
 }

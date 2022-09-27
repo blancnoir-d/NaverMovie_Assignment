@@ -3,10 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/bg_edittext.xml" value="0.1935" />
-        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_circle_cross_gray_16.xml" value="0.1935" />
-        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_star_gray_24.xml" value="0.1935" />
-        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/layout/item_movie.xml" value="0.43854166666666666" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/menu/toolbar_menu.xml" value="0.43854166666666666" />
       </map>
