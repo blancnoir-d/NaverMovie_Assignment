@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">NaverMovie_Project</string>
+    <string name="director">감독: %s</string>
+    <string name="actor">출연: %s</string>
+    <string name="user_rating">평점: %s</string>
 </resources>

@@ -11,6 +11,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 object RetrofitClient {
 
     private const val BASE_URL = "https://openapi.naver.com/v1/"
+    private const val CLIENT_ID = "아이디 입력"
+    private const val CLIENT_SECRET = "비밀번호 입력"
+
     private val gson: Gson = GsonBuilder()
         .setLenient()
         .create()
@@ -22,6 +25,7 @@ object RetrofitClient {
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()
+
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(ScalarsConverterFactory.create())
