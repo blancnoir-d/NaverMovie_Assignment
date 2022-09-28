@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.content.Intent
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import me.saeha.android.navermovie_project.databinding.ItemMovieBinding
 import me.saeha.android.navermovie_project.model.MovieData
 import me.saeha.android.navermovie_project.model.MoviesData
@@ -30,6 +31,7 @@ class SearchResultAdapter(
         holder.itemView.setOnClickListener{
 
             val intent = Intent(context, MovieDetailInfoActivity::class.java)
+            intent.putExtra("movieObject", item)
             context.startActivity(intent)
         }
 
@@ -40,12 +42,19 @@ class SearchResultAdapter(
     //아이템 뷰홀더
     class ItemViewHolder(binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
         private val ivbFavorite = binding.ivbFavorite
+        private val ivPoster = binding.ivPoster
         private val tvTitle = binding.tvTitle
         private val tvDirector = binding.tvDirector
         private val tvActor = binding.tvActor
         private val tvUserRating = binding.tvUserRating
 
         fun onBind(context: Context, item: MovieData) {
+            Glide.with(context)
+                .load(item.image)
+                .override(190,250)
+                .centerCrop()
+                .error(R.drawable.ic_no_pictures)
+                .into(ivPoster)
 
             tvTitle.text= item.title
             tvDirector.text= context.getString(R.string.director,item.director)

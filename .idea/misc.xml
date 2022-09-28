@@ -3,9 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/bg_edittext.xml" value="0.1935" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_circle_cross_gray_16.xml" value="0.1935" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_no_pictures.xml" value="0.3745" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_star_gray_24.xml" value="0.1935" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_star_yellow_24.xml" value="0.3745" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/line_divider.xml" value="0.3745" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/layout/activity_favorites.xml" value="0.3703125" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/layout/activity_movie_detail_info.xml" value="0.3703125" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/layout/item_movie.xml" value="0.43854166666666666" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/menu/toolbar_menu.xml" value="0.43854166666666666" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/xml/network_security_config.xml" value="0.23802083333333332" />
       </map>
     </option>
   </component>

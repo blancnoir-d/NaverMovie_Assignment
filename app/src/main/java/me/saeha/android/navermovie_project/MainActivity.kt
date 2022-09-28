@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import me.saeha.android.navermovie_project.databinding.ActivityMainBinding
@@ -40,14 +41,19 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        binding.toolbar.title= "네이버 영화 검색"
+        binding.tvMainToolbarTitle.text= "네이버 영화 검색"
+
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+        //Divider-> 계속 실행되면 item 높이가 늘어남
+        val dividerItemDecoration = DividerItemDecoration(this,layoutManager.orientation)
+        binding.rcyMainMovieList.addItemDecoration(dividerItemDecoration)
 
         mainViewModel.liveSearchResult.observe(this){
-//TODO:it은 즐겨찾기 데이터가 처리된 데이터로 나와야
+            //TODO:it은 즐겨찾기 데이터가 처리된 데이터로 나와야
             val adapter = SearchResultAdapter(this,it)
-            val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
             binding.rcyMainMovieList.adapter= adapter
             binding.rcyMainMovieList.layoutManager= layoutManager
+
 
         }
 
