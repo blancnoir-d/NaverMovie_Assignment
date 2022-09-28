@@ -1,5 +1,7 @@
 package me.saeha.android.navermovie_project.model
 
+import java.io.Serializable
+
 data class MovieData(
     val title: String,
     val link: String,
@@ -10,4 +12,4 @@ data class MovieData(
     val actor: String,
     val userRating: String,
     val favorite: Boolean
-)
+): Serializable

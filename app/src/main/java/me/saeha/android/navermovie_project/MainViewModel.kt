@@ -46,10 +46,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     val data: MoviesData? = response.body()
                     if(data != null){
                         Log.d("영화 데이터", data.items.size.toString())
-
+                        newsItem.clear()
                         data.items.forEach{
 
-//영화 제목 태그 제거
+                            //영화 제목 태그 제거
                             val removeTag = "<b>"
                             var clearTitle = ""
                             var clearDirector = ""
