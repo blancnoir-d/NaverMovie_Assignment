@@ -1,18 +1,21 @@
-package me.saeha.android.navermovie_project
+package me.saeha.android.navermovie_project.ui
 
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import me.saeha.android.navermovie_project.R
 import me.saeha.android.navermovie_project.databinding.ItemMovieBinding
 import me.saeha.android.navermovie_project.model.MovieData
-import me.saeha.android.navermovie_project.model.MoviesData
+import me.saeha.android.navermovie_project.network.RxBus
+import me.saeha.android.navermovie_project.network.RxEvents
 
 class SearchResultAdapter(
     val context: Context,
-    private val searchResultList: List<MovieData>
+    private val searchResultList: MutableList<MovieData>
 ) :
     RecyclerView.Adapter<SearchResultAdapter.ItemViewHolder>() {
 
@@ -39,6 +42,7 @@ class SearchResultAdapter(
 
     override fun getItemCount(): Int = searchResultList.size
 
+
     //아이템 뷰홀더
     class ItemViewHolder(binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
         private val ivbFavorite = binding.ivbFavorite
@@ -60,8 +64,18 @@ class SearchResultAdapter(
             tvDirector.text= context.getString(R.string.director,item.director)
             tvActor.text= context.getString(R.string.actor,item.actor)
             tvUserRating.text= context.getString(R.string.user_rating,item.userRating)
+            if(item.favorite){
+                ivbFavorite.setBackgroundResource(R.drawable.ic_star_yellow_24)
+            }else{
+                ivbFavorite.setBackgroundResource(R.drawable.ic_star_gray_24)
+            }
 
+            //즐겨찾기
             ivbFavorite.setOnClickListener{
+                Log.d("값 확인1",item.favorite.toString())
+                item.favorite = !item.favorite
+                Log.d("값 확인2",item.favorite.toString())
+                RxBus.publish(RxEvents.EventFavoriteOfMainList(item))
 
             }
         }

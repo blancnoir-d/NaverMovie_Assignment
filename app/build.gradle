@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id "realm-android"
 }
 
 android {
@@ -48,6 +50,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.1'
+    implementation 'androidx.activity:activity-ktx:1.5.1'
 
     //Retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -60,4 +64,13 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    //paging
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
+
+    //RxAndroid와 RxJava , RxKotlin 추가
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.7'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'
+
 }
