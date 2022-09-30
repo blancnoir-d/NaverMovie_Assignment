@@ -19,11 +19,11 @@ import retrofit2.Response
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     //영화 검색 결과
-    private var searchResult = MutableLiveData<MutableList<MovieData>>()
+    var searchResult = MutableLiveData<MutableList<MovieData>>()
     val liveSearchResult: LiveData<MutableList<MovieData>>
         get() = searchResult
 
-    private var movieSearchResult: MutableList<MovieData> = arrayListOf()
+    var movieSearchResult: MutableList<MovieData> = arrayListOf()
 
     //즐겨찾기 목록
     private var favoriteList = MutableLiveData<MutableList<Movie>>()
@@ -40,6 +40,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         searchResult.value = movieSearchResult
         realm = Realm.getDefaultInstance()
         favoriteList.value = getModelList()
+    }
+
+    fun updateList(){
+        searchResult.value = movieSearchResult
+    }
+
+    //즐겨찾기가 업데이트 되면 기존에 있는 결과 List에도 반영해줘야
+    fun updateResultListFavorite(){
+        favoriteList.value = getModelList()
+        for(item in favoriteList.value!!){
+            for(j in searchResult.value!!){
+                j.favorite = item.code == j.code
+            }
+        }
     }
 
     //저장된 즐겨찾기 정보 가져오기
@@ -60,12 +74,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     //즐겨찾기 추가
     fun addFavorite(favoriteMovie: MovieData) {
         //체크 상태 변경
-        movieSearchResult.forEach {
-            if (it.code == favoriteMovie.code) {
-                it.favorite = favoriteMovie.favorite
-            }
-        }
-        searchResult.value = movieSearchResult
+//        movieSearchResult.forEach {
+//            if (it.code == favoriteMovie.code) {
+//                Log.d("메인 즐찻 추가 전", it.favorite.toString()) //이미 true
+//                it.favorite = favoriteMovie.favorite
+//                Log.d("메인 즐찻 추가 후", it.favorite.toString())
+//            }
+//        }
+        searchResult.value = movieSearchResult //이미 true
+
             realm.executeTransactionAsync {
                 with(it.createObject(Movie::class.java, favoriteMovie.code)) {
                     this.title = favoriteMovie.title
@@ -90,7 +107,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         //메인 검색 결과 즐겨찾기 상태 변경
         movieSearchResult.forEach {
             if (it.code == favoriteMovie.code) {
+                Log.d("아 정말",it.favorite.toString())
                 it.favorite = favoriteMovie.favorite
+                Log.d("아 정말2",it.favorite.toString())
             }
         }
         searchResult.value = movieSearchResult
@@ -109,15 +128,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         realm.executeTransaction {
             it.where<Movie>().equalTo("id", favoriteMovie.code).findAll().deleteAllFromRealm()
             favoriteList.value = getModelList()
+
+            Log.d("즐찾 삭제시 확인",searchResult.value?.size.toString())
         }
 
-        //메인 검색 결과 즐겨찾기 상태 변경
-        movieSearchResult.forEach {
-            if (it.code == favoriteMovie.code) {
-                it.favorite = !favoriteMovie.favorite
-            }
-        }
-        searchResult.value = movieSearchResult
+
+
+        //메인 검색 결과 즐겨찾기 상태 변경 사이즈가 0이네
+
+//        movieSearchResult.forEach {
+//            if (it.code == favoriteMovie.code) {
+//                Log.d("즐겨찾기에서 메인 상태 변경1", it.code.toString())
+//                Log.d("즐겨찾기에서 메인 상태 변경1_1", it.favorite.toString())
+//                Log.d("즐겨찾기에서 메인 상태 변경1_2", it.favorite.toString())
+//                it.favorite = !favoriteMovie.favorite
+//                Log.d("즐겨찾기에서 메인 상태 변경2", it.favorite.toString())
+//            }
+//
+//        }
+//
+//        searchResult.value = movieSearchResult
 
     }
 
