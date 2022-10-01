@@ -26,6 +26,7 @@ interface RetrofitInterface {
         @Header("X-Naver-Client-Secret") pw: String,
         @Path("type") type: String,
         @Query("query") query: String?,
+        @Query("display") display: String?,
     ): Call<MoviesData>
 
 //    //RxJava 적용
