@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import me.saeha.android.navermovie_project.R
 import me.saeha.android.navermovie_project.databinding.ActivityMainBinding
-import me.saeha.android.navermovie_project.model.MovieData
 import me.saeha.android.navermovie_project.network.RxBus
 import me.saeha.android.navermovie_project.network.RxEvents
 
@@ -130,10 +129,8 @@ class MainActivity : AppCompatActivity() {
             if(recyclerViewState != null)
             binding.rcyMainMovieList.layoutManager!!.onRestoreInstanceState(recyclerViewState)//저장한 RecyclerView 상태 set
 
-            Log.d("사이즈 확인2", adapter.searchResultList.size.toString()) //10개
-            Log.d("사이즈 확인23", mainViewModel.liveSearchResult.value?.size.toString()) //10개
-            //adapter.searchResultList = mainViewModel.liveSearchResult.value!!
-
+            Log.d("사이즈 확인1", adapter.searchResultList.size.toString()) //10개
+            Log.d("사이즈 확인2", mainViewModel.liveSearchResult.value?.size.toString()) //10개
 
         }
 
@@ -150,8 +147,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.etMainSearch.addTextChangedListener(textWatcher)
-
-
     }
 
     // 툴바 메뉴 버튼을 설정- menu에 있는 item을 연결하는 부분
@@ -172,13 +167,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 }

@@ -57,12 +57,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }else{
                 searchResult.postValue(movieSearchResult.subList(0,movieSearchResult.size))
             }
-//            val addItem = resultSize + pagingSize
-//            if(addItem > movieSearchResult.size){
-//                searchResult.postValue(movieSearchResult.subList(0,movieSearchResult.size))
-//            }else if(addItem < movieSearchResult.size){
-//
-//            }
         }
     }
 
@@ -243,7 +237,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         }
 
                         //paging을 위해서 여기서 sublist (5개씩 보여주기)
-                        if(movieSearchResult.size/pagingSize < 1){
+                        if(movieSearchResult.size/pagingSize < 1){ //paging 로드하려는 개수보다 전체 데이터가 작을 때
                             searchResult.postValue(movieSearchResult)
                         }else{
                             searchResult.postValue(movieSearchResult.subList(0,pagingSize))
