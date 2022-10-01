@@ -36,17 +36,39 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     //Realm
     var realm: Realm
 
+    val pagingSize = 5
+
     init {
         searchResult.value = movieSearchResult
         realm = Realm.getDefaultInstance()
         favoriteList.value = getModelList()
     }
 
-    fun updateList(){
-        searchResult.value = movieSearchResult
+    /**
+     *검색 결과 보여주는 RecyclerView에서 바닥인지 이벤트가 일어났을 때 다음 영화 목록을 불러오기 위한 메소드(paging)
+     *
+     * @param resultSize : 현재 검색 결과 리스트 크기
+     */
+    fun getNextPage(resultSize: Int){
+        //원본 크기보다 작으면
+        if(resultSize < movieSearchResult.size){
+            if(movieSearchResult.size - resultSize >= pagingSize){
+                searchResult.postValue(movieSearchResult.subList(0,resultSize+pagingSize))
+            }else{
+                searchResult.postValue(movieSearchResult.subList(0,movieSearchResult.size))
+            }
+//            val addItem = resultSize + pagingSize
+//            if(addItem > movieSearchResult.size){
+//                searchResult.postValue(movieSearchResult.subList(0,movieSearchResult.size))
+//            }else if(addItem < movieSearchResult.size){
+//
+//            }
+        }
     }
 
-    //즐겨찾기가 업데이트 되면 기존에 있는 결과 List에도 반영해줘야
+    /**
+     *즐겨찾기가 업데이트 되면 기존에 있는 검색 결과 List에도 변경된 정보 반영해주기 위한 메소드
+     */
     fun updateResultListFavorite(){
         favoriteList.value = getModelList()
         for(item in favoriteList.value!!){
@@ -56,7 +78,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    //저장된 즐겨찾기 정보 가져오기
+
+    /**
+     *DBdp 저장된 즐겨찾기 정보 가져오기
+     */
     private fun getModelList(): MutableList<Movie> {
         val list: MutableList<Movie> = ArrayList()
         try {
@@ -71,16 +96,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return list
     }
 
-    //즐겨찾기 추가
+
+    /**
+     *메인 화면에서 즐겨찾기 추가했을 시 DB에 있는 데이터도 추가하기 위한 메소드
+     *
+     *@param favoriteMovie :즐겨찾기 한 영화 객체
+     */
     fun addFavorite(favoriteMovie: MovieData) {
-        //체크 상태 변경
-//        movieSearchResult.forEach {
-//            if (it.code == favoriteMovie.code) {
-//                Log.d("메인 즐찻 추가 전", it.favorite.toString()) //이미 true
-//                it.favorite = favoriteMovie.favorite
-//                Log.d("메인 즐찻 추가 후", it.favorite.toString())
-//            }
-//        }
+
         searchResult.value = movieSearchResult //이미 true
 
             realm.executeTransactionAsync {
@@ -99,17 +122,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                 }
             }
-
     }
 
-    //메인에서의 즐겨찾기 해제
+
+    /**
+     *메인 화면에서 즐겨찾기 해제했을 때 검색 결과 리스트의 정보 변경과
+     *DB에 있는 데이터도 삭제하기 위한 메소드
+     *
+     *@param favoriteMovie :즐겨찾기 해제한 영화 객체
+     */
+
     fun deleteFavorite(favoriteMovie: MovieData) {
         //메인 검색 결과 즐겨찾기 상태 변경
         movieSearchResult.forEach {
             if (it.code == favoriteMovie.code) {
-                Log.d("아 정말",it.favorite.toString())
                 it.favorite = favoriteMovie.favorite
-                Log.d("아 정말2",it.favorite.toString())
+                Log.d("MainActivity_즐겨찾기 값",it.favorite.toString())
             }
         }
         searchResult.value = movieSearchResult
@@ -118,11 +146,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         realm.executeTransactionAsync {
             it.where<Movie>().equalTo("id", favoriteMovie.code).findAll().deleteAllFromRealm()
         }
-
     }
 
-
-    //즐겨찾기 화면에서의 즐겨찾기 삭제
+    /**
+     *즐겨찾기 화면에서 즐겨찾기 한 영화 삭제
+     *
+     *@param favoriteMovie :즐겨찾기 해제한 영화 객체
+     */
     fun deleteFavorite(favoriteMovie: Movie) {
         //realm에 저장된 정보 삭제
         realm.executeTransaction {
@@ -131,27 +161,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             Log.d("즐찾 삭제시 확인",searchResult.value?.size.toString())
         }
-
-
-
-        //메인 검색 결과 즐겨찾기 상태 변경 사이즈가 0이네
-
-//        movieSearchResult.forEach {
-//            if (it.code == favoriteMovie.code) {
-//                Log.d("즐겨찾기에서 메인 상태 변경1", it.code.toString())
-//                Log.d("즐겨찾기에서 메인 상태 변경1_1", it.favorite.toString())
-//                Log.d("즐겨찾기에서 메인 상태 변경1_2", it.favorite.toString())
-//                it.favorite = !favoriteMovie.favorite
-//                Log.d("즐겨찾기에서 메인 상태 변경2", it.favorite.toString())
-//            }
-//
-//        }
-//
-//        searchResult.value = movieSearchResult
-
     }
 
-    //특정 코드 찾기
+    /**
+     *즐겨찾기에 있는 영화인지 아닌지를 알기 위한 특정 영화 코드 찾기 메소드
+     *
+     *@param code :영화 link값 끝에 있는 영화 고유 코드
+     */
     fun thisCodeMovie(code: Int): Boolean {
         var check = false
         realm.executeTransaction{
@@ -165,14 +181,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     /**
      *검색어를 받아서 Naver API영화 검색 결과 받아오는 메소드
      *
-     *@paramStringsearchKeyword :검색창에 있는 검색 키워드 값
+     *@param StringsearchKeyword :검색창에 있는 검색 키워드 값
      */
     fun getSearchData(searchKeyword: String) {
         val call: Call<MoviesData> = RetrofitClient.service.requestMovieJson(
             CLIENT_ID,
             CLIENT_SECRET,
             "movie.json",
-            searchKeyword
+            searchKeyword,
+            "30" //30개씩 가져오기
         )
         call.enqueue(object : Callback<MoviesData> {
             override fun onResponse(call: Call<MoviesData>, response: Response<MoviesData>) {
@@ -224,7 +241,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                             )
                             movieSearchResult.add(movieItem)
                         }
-                        searchResult.postValue(movieSearchResult)
+
+                        //paging을 위해서 여기서 sublist (5개씩 보여주기)
+                        if(movieSearchResult.size/pagingSize < 1){
+                            searchResult.postValue(movieSearchResult)
+                        }else{
+                            searchResult.postValue(movieSearchResult.subList(0,pagingSize))
+                        }
+
                     }
 
                 } else {

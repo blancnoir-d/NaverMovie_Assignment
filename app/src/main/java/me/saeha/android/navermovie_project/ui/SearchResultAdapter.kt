@@ -75,7 +75,7 @@ class SearchResultAdapter(
                 ivbFavorite.setBackgroundResource(R.drawable.ic_star_gray_24)
             }
 
-            //즐겨찾기
+            //즐겨찾기 별 버튼
             ivbFavorite.setOnClickListener{
                 Log.d("값 확인1",item.favorite.toString())
                 item.favorite = !item.favorite
