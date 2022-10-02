@@ -99,8 +99,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun addFavorite(favoriteMovie: MovieData) {
 
-        searchResult.value = movieSearchResult //이미 true
-
             realm.executeTransactionAsync {
                 with(it.createObject(Movie::class.java, favoriteMovie.code)) {
                     this.title = favoriteMovie.title
@@ -135,7 +133,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 Log.d("MainActivity_즐겨찾기 값",it.favorite.toString())
             }
         }
-        searchResult.value = movieSearchResult
 
         //realm에 저장된 정보 삭제
         realm.executeTransactionAsync {
