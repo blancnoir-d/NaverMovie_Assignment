@@ -22,7 +22,7 @@
         android:orientation="vertical"
         android:weightSum="4"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivb_favorite"
         app:layout_constraintStart_toEndOf="@+id/iv_poster"
         app:layout_constraintTop_toTopOf="parent">
 

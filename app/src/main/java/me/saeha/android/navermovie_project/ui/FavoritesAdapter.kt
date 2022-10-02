@@ -1,7 +1,6 @@
 package me.saeha.android.navermovie_project.ui
 
 import android.view.LayoutInflater
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.content.Intent
@@ -19,7 +18,6 @@ class FavoritesAdapter(val context: Context, private val templateKeywordData: Mu
     RecyclerView.Adapter<FavoritesAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        //viewbinding - item 레이아웃과
         val templateDetailBinding =
             ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(templateDetailBinding)
@@ -28,7 +26,7 @@ class FavoritesAdapter(val context: Context, private val templateKeywordData: Mu
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = templateKeywordData[position]
         holder.onBind(context, item)
-        //아이템 클릭리스너
+
         holder.itemView.setOnClickListener {
 
             val intent = Intent(context, MovieDetailInfoActivity::class.java)
@@ -46,7 +44,6 @@ class FavoritesAdapter(val context: Context, private val templateKeywordData: Mu
 
     override fun getItemCount(): Int = templateKeywordData.size
 
-    //아이템 뷰홀더
     class ItemViewHolder(binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
         private val ivbFavorite = binding.ivbFavorite
         private val ivPoster = binding.ivPoster
@@ -56,11 +53,12 @@ class FavoritesAdapter(val context: Context, private val templateKeywordData: Mu
         private val tvUserRating = binding.tvUserRating
 
         fun onBind(context: Context, item: Movie) {
+            //영화 포스터 이미지 set
             Glide.with(context)
                 .load(item.image)
                 .override(190, 250)
                 .centerCrop()
-                .error(R.drawable.ic_no_pictures)
+                .error(R.drawable.ic_no_pictures_black_512)
                 .into(ivPoster)
 
             tvTitle.text = item.title
@@ -73,7 +71,7 @@ class FavoritesAdapter(val context: Context, private val templateKeywordData: Mu
                 ivbFavorite.setBackgroundResource(R.drawable.ic_star_gray_24)
             }
 
-            ivbFavorite.setOnClickListener {//true인 채로 전달
+            ivbFavorite.setOnClickListener {//favorite true인 채로 전달
                 RxBus.publish(RxEvents.EventFavoriteOfFavoriteList(item))
             }
         }

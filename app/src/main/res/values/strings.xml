@@ -3,4 +3,8 @@
     <string name="director">감독: %s</string>
     <string name="actor">출연: %s</string>
     <string name="user_rating">평점: %s</string>
+    <string name="search_hint">검색어를 입력해주세요</string>
+    <string name="btn_favorite">즐겨찾기</string>
+    <string name="title_favorite">즐겨찾기 목록</string>
+    <string name="title_search">네이버 영화 검색</string>
 </resources>

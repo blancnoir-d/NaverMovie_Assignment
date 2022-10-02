@@ -10,7 +10,7 @@ import io.realm.RealmResults
 import io.realm.kotlin.where
 import me.saeha.android.navermovie_project.model.Movie
 import me.saeha.android.navermovie_project.model.MovieData
-import me.saeha.android.navermovie_project.model.MoviesData
+import me.saeha.android.navermovie_project.model.NaverMoviesData
 import me.saeha.android.navermovie_project.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,6 +23,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val liveSearchResult: LiveData<MutableList<MovieData>>
         get() = searchResult
 
+    //영화 검색 결과 원본
     var movieSearchResult: MutableList<MovieData> = arrayListOf()
 
     //즐겨찾기 목록
@@ -30,12 +31,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val liveFavoriteList: LiveData<MutableList<Movie>>
         get() = favoriteList
 
+    //Naver Key
     private val CLIENT_ID = "6GXwvLWETQz9pjFapwto"
     private val CLIENT_SECRET = "YC92nIro4P"
 
     //Realm
     var realm: Realm
-
     val pagingSize = 5
 
     init {
@@ -178,17 +179,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      *@param StringsearchKeyword :검색창에 있는 검색 키워드 값
      */
     fun getSearchData(searchKeyword: String) {
-        val call: Call<MoviesData> = RetrofitClient.service.requestMovieJson(
+        val call: Call<NaverMoviesData> = RetrofitClient.service.requestMovieJson(
             CLIENT_ID,
             CLIENT_SECRET,
             "movie.json",
             searchKeyword,
             "30" //30개씩 가져오기
         )
-        call.enqueue(object : Callback<MoviesData> {
-            override fun onResponse(call: Call<MoviesData>, response: Response<MoviesData>) {
+        call.enqueue(object : Callback<NaverMoviesData> {
+            override fun onResponse(call: Call<NaverMoviesData>, response: Response<NaverMoviesData>) {
                 if (response.isSuccessful) { //response.code ==200
-                    val data: MoviesData? = response.body()
+                    val data: NaverMoviesData? = response.body()
                     if (data != null) {
                         Log.d("영화 데이터", data.items.size.toString())
                         movieSearchResult.clear()
@@ -242,7 +243,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         }else{
                             searchResult.postValue(movieSearchResult.subList(0,pagingSize))
                         }
-
                     }
 
                 } else {
@@ -250,7 +250,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }//response.code == 400
             }
 
-            override fun onFailure(call: Call<MoviesData>, t: Throwable) { //response.code == 500
+            override fun onFailure(call: Call<NaverMoviesData>, t: Throwable) { //response.code == 500
 
             }
         })

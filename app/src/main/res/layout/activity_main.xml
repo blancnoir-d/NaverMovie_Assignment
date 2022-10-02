@@ -30,7 +30,22 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="@string/title_search"/>
+            <TextView
+                android:id="@+id/tv_main_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="@string/btn_favorite"
+                android:background="@drawable/bg_square_line_gray"
+                android:drawableLeft="@drawable/ic_star_yellow_24"
+                android:gravity="center"
+                android:layout_gravity="end"
+                android:padding="5dp"
+                android:layout_marginEnd="15dp"/>
+
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -56,14 +71,16 @@
                 android:id="@+id/et_main_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/bg_edittext"
-                android:padding="8dp" />
+                android:background="@drawable/bg_edittext_line_gray"
+                android:padding="8dp"
+                android:hint="@string/search_hint"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcy_main_movie_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"/>
+
 
         </LinearLayout>
 

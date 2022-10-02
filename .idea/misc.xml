@@ -4,9 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/bg_edittext.xml" value="0.1935" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/bg_edittext_line_gray.xml" value="0.3605" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/bg_square_line_gray.xml" value="0.2415" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_circle_cross_gray_16.xml" value="0.1935" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_circle_cross_gray_20.xml" value="0.2495" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_left_arrow_gray_24.xml" value="0.2415" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_no_pictures.xml" value="0.3745" />
+        <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_no_pictures_black_.xml" value="0.2415" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_star_gray_24.xml" value="0.1935" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/ic_star_yellow_24.xml" value="0.3745" />
         <entry key="..\:/Users/admin/AndroidProject/NaverMovie_Project/app/src/main/res/drawable/line_divider.xml" value="0.3745" />

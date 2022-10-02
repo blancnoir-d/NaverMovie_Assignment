@@ -1,6 +1,6 @@
 package me.saeha.android.navermovie_project.model
 
-class MoviesData(
+class NaverMoviesData(
     var lastBuildDate: String,
     var total: String,
     var start: String,

@@ -46,8 +46,6 @@ class SearchResultAdapter(
 
     override fun getItemCount(): Int = searchResultList.size
 
-
-    //아이템 뷰홀더
     class ItemViewHolder(binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
         private val compositeDisposable = CompositeDisposable()
         private val ivbFavorite = binding.ivbFavorite
@@ -58,11 +56,12 @@ class SearchResultAdapter(
         private val tvUserRating = binding.tvUserRating
 
         fun onBind(context: Context, item: MovieData) {
+            //영화 포스터 이미지 set
             Glide.with(context)
                 .load(item.image)
                 .override(190,250)
                 .centerCrop()
-                .error(R.drawable.ic_no_pictures)
+                .error(R.drawable.ic_no_pictures_black_512)
                 .into(ivPoster)
 
             tvTitle.text= item.title
@@ -77,9 +76,9 @@ class SearchResultAdapter(
 
             //즐겨찾기 별 버튼
             ivbFavorite.setOnClickListener{
-                Log.d("값 확인1",item.favorite.toString())
+                Log.d("즐겨찾기 값 확인1",item.favorite.toString())
                 item.favorite = !item.favorite
-                Log.d("값 확인2",item.favorite.toString())
+                Log.d("즐겨찾기 값 확인2",item.favorite.toString())
                 RxBus.publish(RxEvents.EventFavoriteOfMainList(item))
             }
         }

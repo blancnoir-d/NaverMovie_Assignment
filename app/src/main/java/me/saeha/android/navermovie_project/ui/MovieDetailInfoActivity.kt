@@ -12,8 +12,6 @@ import com.bumptech.glide.Glide
 import me.saeha.android.navermovie_project.R
 import me.saeha.android.navermovie_project.databinding.ActivityMovieDetailInfoBinding
 import me.saeha.android.navermovie_project.model.MovieData
-import me.saeha.android.navermovie_project.network.RxBus
-import me.saeha.android.navermovie_project.network.RxEvents
 
 
 class MovieDetailInfoActivity : AppCompatActivity() {
@@ -32,10 +30,10 @@ class MovieDetailInfoActivity : AppCompatActivity() {
     }
 
     private fun setView() {
-        //toolbar
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화 (화살표)
-        supportActionBar?.setDisplayShowTitleEnabled(false) //액션바에 표시되는 제목의 표시유무를 설정합니다. false로 해야 custom한 툴바의 이름이 화면에 보이게 됩니다.
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.setNavigationIcon(R.drawable.ic_left_arrow_gray_24)
 
         binding.tvDetailToolbarTitle.text = movie.title
         binding.tvDetailTitle.text = movie.title
@@ -63,11 +61,12 @@ class MovieDetailInfoActivity : AppCompatActivity() {
 
         }
 
+        //영화 포스터 이미지
         Glide.with(this)
             .load(movie.image)
             .override(190, 250)
             .centerCrop()
-            .error(R.drawable.ic_no_pictures)
+            .error(R.drawable.ic_no_pictures_black_512)
             .into(binding.ivDetailPoster)
 
         //웹뷰
@@ -85,12 +84,7 @@ class MovieDetailInfoActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> { //뒤로 가기 버튼
                 finish()
-
             }
-//            R.id.toolbar_info -> {// 툴팁
-//                val view = findViewById<View>(R.id.toolbar_info) //툴팁을 띄우기 위해서는 view가 필요함
-//                balloon.showAlignBottom(view)
-//            }
         }
         return super.onOptionsItemSelected(item)
     }
