@@ -3,6 +3,7 @@ package me.saeha.android.navermovie_project.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,8 +18,8 @@ class FavoritesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoritesBinding
     private val mainViewModel: MainViewModel by viewModels()
     private val compositeDisposable = CompositeDisposable()
-    var itemCode = 0
     var list = ArrayList<Int>()
+    private var recyclerViewState: Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +31,7 @@ class FavoritesActivity : AppCompatActivity() {
         //즐겨찾기 List에서 별 표시를 눌렀을 때 호출
         compositeDisposable.add(
             RxBus.listen(RxEvents.EventFavoriteOfFavoriteList::class.java).subscribe {
+                recyclerViewState =binding.rcyFavoriteMovieList.layoutManager?.onSaveInstanceState()!! //RecyclerView 현 스크롤 상태 저장
                 if(it.movie.favorite){ //즐겨찾기 상태는 true
                     mainViewModel.deleteFavorite(it.movie)
                     list.add(it.movie.code)
@@ -54,6 +56,9 @@ class FavoritesActivity : AppCompatActivity() {
             val adapter = FavoritesAdapter(this, it)
             binding.rcyFavoriteMovieList.adapter= adapter
             binding.rcyFavoriteMovieList.layoutManager= layoutManager
+            // RecyclerView의 데이터 값이 바뀌어도 item 위치 그대로 하기 위해 추가
+            if(recyclerViewState != null)
+                binding.rcyFavoriteMovieList.layoutManager!!.onRestoreInstanceState(recyclerViewState)//저장한 RecyclerView 스크롤 상태 set
 
 
         }

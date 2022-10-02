@@ -1,5 +1,6 @@
 package me.saeha.android.navermovie_project.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -38,9 +39,11 @@ class MainActivity : AppCompatActivity() {
 
     //registerForActivityResult
     private lateinit var getResultText: ActivityResultLauncher<Intent>
+    var stateType = 0
 
 
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -52,10 +55,14 @@ class MainActivity : AppCompatActivity() {
         //main List에서 별 표시를 눌렀을 때 호출 됨
         compositeDisposable.add(
             RxBus.listen(RxEvents.EventFavoriteOfMainList::class.java).subscribe {
+                recyclerViewState =
+                    binding.rcyMainMovieList.layoutManager?.onSaveInstanceState()!! //RecyclerView 현 스크롤 상태 저장
                 Log.d("메인 즐겨찾기 클릭 상태", it.movie.favorite.toString())
-                if (it.movie.favorite) {//true
+                if (it.movie.favorite) {
+                    adapter.notifyDataSetChanged()//true
                     mainViewModel.addFavorite(it.movie)
                 } else {//false
+                    adapter.notifyDataSetChanged()//true
                     mainViewModel.deleteFavorite(it.movie)
                 }
             }
