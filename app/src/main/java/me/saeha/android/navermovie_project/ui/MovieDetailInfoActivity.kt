@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import me.saeha.android.navermovie_project.R
 import me.saeha.android.navermovie_project.databinding.ActivityMovieDetailInfoBinding
 import me.saeha.android.navermovie_project.model.MovieData
+import me.saeha.android.navermovie_project.network.RxBus
+import me.saeha.android.navermovie_project.network.RxEvents
 
 
 class MovieDetailInfoActivity : AppCompatActivity() {
@@ -83,6 +85,8 @@ class MovieDetailInfoActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> { //뒤로 가기 버튼
+                RxBus.publish(RxEvents.EventDetailIntoOfBack())
+                //mainViewModel.updateResultListFavorite()
                 finish()
             }
         }

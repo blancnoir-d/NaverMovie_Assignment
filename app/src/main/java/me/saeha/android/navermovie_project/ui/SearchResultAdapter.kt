@@ -34,9 +34,8 @@ class SearchResultAdapter(
         val item = searchResultList[position]
         holder.onBind(context, item)
 
-        //아이템 클릭리스너
-        holder.itemView.setOnClickListener{
 
+        holder.itemView.setOnClickListener{
             val intent = Intent(context, MovieDetailInfoActivity::class.java)
             intent.putExtra("movieObject", item)
             context.startActivity(intent)

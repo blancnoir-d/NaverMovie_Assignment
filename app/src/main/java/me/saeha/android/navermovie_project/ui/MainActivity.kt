@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         setView()
 
-        //main List에서 별 표시를 눌렀을 때 호출 됨
+        //main List에서 별 표시를 눌렀을 때 호출 됨.
         compositeDisposable.add(
             RxBus.listen(RxEvents.EventFavoriteOfMainList::class.java).subscribe {
                 recyclerViewState =
@@ -68,19 +68,27 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
+        //상세페이지에서 Main으로 왔을 때 호출됨. 즐겨찾기 정보 업데이트 하기 위해 추가
+        compositeDisposable.add(
+            RxBus.listen(RxEvents.EventDetailIntoOfBack::class.java).subscribe {
+                mainViewModel.updateResultListFavorite()
+            }
+        )
+
         //즐겨찾기 화면에서 다시 돌아왔을 때
         getResultText = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == RESULT_OK) {
                 mainViewModel.updateResultListFavorite()
-                binding.rcyMainMovieList.layoutManager = LinearLayoutManager(this)
 
-                //즐겨 찾기 해제한 값 적용. recyclerview 다시 그리기
-                mainViewModel.liveSearchResult.observe(this) { movieList ->
-                    adapter = SearchResultAdapter(this, movieList)
-                    binding.rcyMainMovieList.adapter = adapter
-                }
+//                binding.rcyMainMovieList.layoutManager = LinearLayoutManager(this)
+//
+//                //즐겨 찾기 해제한 값 적용. recyclerview 다시 그리기
+//                mainViewModel.liveSearchResult.observe(this) { movieList ->
+//                    adapter = SearchResultAdapter(this, movieList)
+//                    binding.rcyMainMovieList.adapter = adapter
+//                }
             }
         }
     }

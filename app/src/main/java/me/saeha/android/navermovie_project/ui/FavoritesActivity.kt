@@ -18,7 +18,6 @@ class FavoritesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoritesBinding
     private val mainViewModel: MainViewModel by viewModels()
     private val compositeDisposable = CompositeDisposable()
-    var list = ArrayList<Int>()
     private var recyclerViewState: Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,13 +27,12 @@ class FavoritesActivity : AppCompatActivity() {
 
         setView()
 
-        //즐겨찾기 List에서 별 표시를 눌렀을 때 호출
+        //즐겨찾기 List에서 별 눌렀을 때 호출.
         compositeDisposable.add(
             RxBus.listen(RxEvents.EventFavoriteOfFavoriteList::class.java).subscribe {
                 recyclerViewState =binding.rcyFavoriteMovieList.layoutManager?.onSaveInstanceState()!! //RecyclerView 현 스크롤 상태 저장
                 if(it.movie.favorite){ //즐겨찾기 상태는 true
                     mainViewModel.deleteFavorite(it.movie)
-                    list.add(it.movie.code)
                 }
             }
         )

@@ -66,11 +66,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun updateResultListFavorite(){
         favoriteList.value = getModelList()
-        for(item in favoriteList.value!!){
-            for(j in searchResult.value!!){
-                j.favorite = item.code == j.code
+        val movieCodeList = ArrayList<Int>()
+        for(i in favoriteList.value!!){
+            movieCodeList.add(i.code)
+        }
+        //searchResult.postValue(movieSearchResult.subList(0,pagingSize))
+        //searchResult.value.size
+        Log.d("즐겨찾기 크기 확인", favoriteList.value!!.size.toString())
+        Log.d("현재 보이는 크기 확인", searchResult.value!!.size.toString())
+        if(favoriteList.value!!.size > 0){
+                for(j in movieSearchResult){
+                    j.favorite = movieCodeList.contains(j.code)
+                }
+        }else{
+            for(j in movieSearchResult){
+                j.favorite = false
             }
         }
+        searchResult.value = movieSearchResult.subList(0,searchResult.value!!.size)
     }
 
 
@@ -181,7 +194,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             CLIENT_SECRET,
             "movie.json",
             searchKeyword,
-            "30" //30개씩 가져오기
+            "50" //50개 가져오기
         )
         call.enqueue(object : Callback<NaverMoviesData> {
             override fun onResponse(call: Call<NaverMoviesData>, response: Response<NaverMoviesData>) {
