@@ -73,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_edittext_line_gray"
                 android:padding="8dp"
-                android:hint="@string/search_hint"/>
+                android:hint="@string/search_hint"
+                android:singleLine="true"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcy_main_movie_list"
